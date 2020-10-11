@@ -153,9 +153,7 @@ include_once('inc/head.php');
 														    <tr>
 														        <th>Sr #</th>
 														        <th>Email</th>
-														        <th>Name</th>
-														        <th>Username</th>
-														        <th>State</th>
+														        <th>Fullname</th>
 
 														    </tr>
 														</thead>
@@ -165,8 +163,6 @@ include_once('inc/head.php');
 														    $users_id = $get_users_row['id'];
 														    $users_email = $get_users_row['email'];
 														    $users_fullname = $get_users_row['fullname'];
-														    $users_username = $get_users_row['username'];
-														    $users_state = $get_users_row['state'];
 
 
 														?>
@@ -174,8 +170,6 @@ include_once('inc/head.php');
 														    <td><?php echo $users_id;?></td>
 														    <td><?php echo $users_email;?></td>
 														    <td><?php echo $users_fullname;?></td>
-														    <td><?php echo ucfirst($users_username);?></td>
-														    <td><?php echo ucfirst($users_state);?></td>
 														</tr>
 														<?php }?>
 														</tbody>

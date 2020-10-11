@@ -1,8 +1,8 @@
 <?php
 $db['db_host'] = 'localhost';
-$db['db_user'] = 'blungzzh';
-$db['db_pass'] = '31VZD2PffZQE';
-$db['db_name'] = 'blungzzh_crimereport';
+$db['db_user'] = 'root';
+$db['db_pass'] = '';
+$db['db_name'] = 'crimereport';
 
 foreach($db as $key => $value){
     define(strtoupper($key), $value);
