@@ -101,11 +101,8 @@ if(isset($_POST['checkboxes'])){
 					                               <th><input type="checkbox" id="selectallboxes"></th>
 					                                <th>Sr #</th>
 					                                <th>Fullname</th>
-					                                <th>State</th>
-					                                <th>LGA</th>
 					                                <th>Email</th>
-					                                <th>Phone</th>
-					                                <th>Username</th>
+					                                <th>Password</th>
 					                                <th>Edit</th>
 					                                <th>Del</th> 
 					                            </tr>
@@ -115,21 +112,15 @@ if(isset($_POST['checkboxes'])){
 						                            while($row = mysqli_fetch_array($run)){
 						                                $id = $row['id'];
 						                                $fullname = ucfirst($row['fullname']);
-						                                $state = $row['state'];
-						                                $lga = $row['lga'];
 						                                $email = $row['email'];
-						                                $phone = $row['phone'];
-						                                $username = $row['username'];
+						                                $password = $row['password'];
 						                        ?>
 					                            <tr>
 					                               <td><input type="checkbox" class="checkboxes" name="checkboxes[]" value="<?php echo $id;?>"></td>
 					                                <td><?php echo $id;?></td>
 					                                <td><?php echo "$fullname";?></td>
-					                                <td><?php echo "$state";?></td>
-					                                <td><?php echo $lga;?></td>
 					                                <td><?php echo $email;?></td>
-					                                <td><?php echo $phone;?></td>
-					                                <td><?php echo $username;?></td>
+					                                <td><?php echo $password;?></td>
 					                                <td><a href="edit-user.php?edit=<?php echo $id;?>"><i class="fa fa-pencil"></i></a></td>
                                 					<td><a href="users.php?del=<?php echo $id;?>"><i class="fa fa-times"></i></a></td>
 					                            </tr>
