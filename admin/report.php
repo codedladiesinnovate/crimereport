@@ -19,11 +19,11 @@ $sql = 'SELECT * FROM report ORDER BY id';
 
 if(isset($_GET['del'])){
     $del_id = $_GET['del'];
-    $del_check_query = "SELECT * FROM `report` WHERE id = $del_id";
+    $del_check_query = "SELECT * FROM `crime` WHERE id = $del_id";
     $del_check_run = mysqli_query($con, $del_check_query);
     
     if(mysqli_num_rows($del_check_run) > 0){
-        $del_query = "DELETE FROM `report` WHERE `report`.`id` = $del_id";
+        $del_query = "DELETE FROM `crime` WHERE `crime`.`id` = $del_id";
         if(mysqli_query($con, $del_query)){
             $msg = "Post Has been Deleted";
         }
@@ -36,6 +36,42 @@ if(isset($_GET['del'])){
     }
 }
 
+
+  //  if(isset($_POST['hash'])){
+  //  	echo "<script>alert($hashed)</script>";
+  //   $hash_id = $_POST['hash'];
+  //   $hash_check_query = "SELECT * FROM `crime` WHERE `id` = $hash_id";
+  //   $hash_check_run = mysqli_query($con, $hash_check_query);
+    
+  //   // if(mysqli_num_rows($hash_check_run) > 0){
+  //   	$str = $hash_check_run['message'];
+		// $salt = $hash_check_run['crime_message']; 
+		// $hashed = strval(sha1($str.$salt)); 
+		// echo "<script>alert($hashed)</script>";
+		
+
+		// $bulk_admin_query1 = "UPDATE `crime` SET `hashed` = $hashed WHERE `crime`.`id` = $hash_id";
+
+		
+  //       mysqli_query($con, $bulk_admin_query1);
+        
+        // $hash_query = "DELETE FROM `report` WHERE `report`.`id` = $del_id";
+        // if(mysqli_query($con, $del_query)){
+        //     $msg = "Post Has been Deleted";
+        // }
+        // else{
+        //     $error = "Post has not been deleted";
+        // } 
+    // }
+    // else{
+    //     header('location: report.php');
+    // }
+// } 
+
+
+
+
+
 if(isset($_POST['checkboxes'])){
     
     foreach($_POST['checkboxes'] as $user_id){
@@ -43,11 +79,11 @@ if(isset($_POST['checkboxes'])){
         $bulk_option = $_POST['bulk-options'];
         
         if($bulk_option == 'delete'){
-            $bulk_del_query = "DELETE FROM `report` WHERE `report`.`id` = $user_id";
+            $bulk_del_query = "DELETE FROM `crime` WHERE `crime`.`id` = $user_id";
             mysqli_query($con, $bulk_del_query);
         }
         else if($bulk_option == 'approve'){
-            $bulk_admin_query = "UPDATE `report` SET `status` = 'approve' WHERE `report`.`id` = $user_id";
+            $bulk_admin_query = "UPDATE `crime` SET `status` = 'approve' WHERE `crime`.`id` = $user_id";
             mysqli_query($con, $bulk_admin_query);
         }
         
@@ -91,7 +127,7 @@ include_once('inc/head.php');
 								<div class="w3l-table-info agile_info_shadow">
 									<h3 class="w3_inner_tittle two"><code> Add, View, Edit and Delete Report </code> </h3>
 									<?php 
-								 		$query = "SELECT * FROM report ORDER BY id DESC";
+								 		$query = "SELECT * FROM crime ORDER BY id DESC";
                         				$run = mysqli_query($con, $query);
                         			?>
 								 	<form action="" method="post">
@@ -123,7 +159,7 @@ include_once('inc/head.php');
 																	<select class="form-control" name="state" style="width: 150px; display: inline;height: 50px;"> 
 																		<option value="">Select State</option>
 																		<?php
-																		$sql2 = "SELECT * FROM `report` GROUP BY `state` ASC";
+																		$sql2 = "SELECT * FROM `crime` GROUP BY `state` ASC";
 																		$result2 = mysqli_query($con, $sql2);
 																		if (mysqli_num_rows($result2) > 0) {
 																			  $report2 = mysqli_fetch_all($result2, MYSQLI_ASSOC);
@@ -168,8 +204,11 @@ include_once('inc/head.php');
 					                                <th>State</th>
 					                                <th>LGA</th>
 					                                <th>Date</th>
+					                                <th>Report</th>
 					                                <th>Approve</th>
 					                                <th>Del</th>
+					                                <th>Hash</th>
+					                                <th>Validate Hash</th>
 					                            </tr>
 					                        </thead>
 					                        <tbody>	
@@ -181,7 +220,9 @@ include_once('inc/head.php');
 					                                $lga = $row['lga'];
 					                                $categories = $row['category'];
 					                                $image = $row['image'];
+					                                $message = $row['message'];
 					                                $status = $row['status'];
+					                                $hashed = $row['hashed'];
 					                                $date = getdate($row['date']);
 					                                $day = $date['mday'];
 					                                $month = substr($date['month'],0,3);
@@ -198,6 +239,7 @@ include_once('inc/head.php');
 					                                <td><?php echo $state;?></td>
 					                                <td><?php echo $lga;?></td>
 					                                <td><?php echo "$day $month $year";?></td> 
+					                                <td><?php echo $message;?></td>
 					                                <?php
 					                                if ($row['status'] != "Approved") {
 					                                	echo '<td><a href="process.php?id='.$id.'"  class="btn btn-success" >Approve</a></td>';
@@ -215,6 +257,8 @@ include_once('inc/head.php');
 					                                    ?>;"><?php // echo ucfirst($status);?></span></td> -->
 					                                
                                 					<td><a href="report.php?del=<?php echo $id;?>"><i class="fa fa-times"></i></a></td>
+                                					 <td><?php echo $hashed;?></td>
+                                					 <td><button class="hash" id="<?php echo $hashed;?>">Hashed</button></td>
 					                            </tr>
 					                           <?php  }?> 
 					                        </tbody>
@@ -229,6 +273,9 @@ include_once('inc/head.php');
 								</div>
 							</div>
 							<!-- //tables -->
+							<script type="text/javascript">
+								
+							</script>
 					
 				    </div>
 					<!-- //inner_content_w3_agile_info-->
@@ -275,6 +322,29 @@ include_once('inc/head.php');
       $('#table-max-height').basictable({
         tableWrapper: true
       });
+
+      $(".hash").click(e => {
+      	let hash = e.target.id;
+      	validate(hash);
+      });
+
+      function validate(hash) {
+      	var headers = {
+		  'Accept':'application/json',
+		  'X-API-Key':'CruLuLcqvH46Gna33TudyKyXpOachiAXN4vAh+AowD0='
+
+		};
+
+		$.ajax({
+		  url: 'https://developers.cryptowerk.com/platform/API/v8/register',
+		  method: 'post',
+		  data: '?hashes='+hash,
+		  headers: headers,
+		  success: function(data) {
+		    console.log(JSON.stringify(data));
+		  }
+		})
+      }
     });
 </script>
 <!-- //js -->
