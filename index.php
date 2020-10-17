@@ -414,7 +414,6 @@ require_once('db.php');
         </div>
       </div>
     </section>
-
  
     <footer class="ftco-footer ftco-bg-dark ftco-section">
       <div class="container">
