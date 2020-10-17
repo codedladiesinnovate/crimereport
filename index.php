@@ -39,10 +39,15 @@ require_once('db.php');
 
                         }
 
+                  $hashed =  sha1($subject.$message);
+                  // sprintf("The gost hashed password of %s is: %s\n",  
+                  //       $str, hash('gost', $subject.$message)); 
+
+                  echo '<script>alert($hashed)</script>';
 
 
-                  $insert_query = "INSERT INTO `crime` (`id`, `user_id`,`fullname`, `crime_subject`, `crime_category`, `crime_loc`, `crime_evidence`,`message`, `date`, `status`)
-      VALUES (NULL, '$userid','$name',  '$subject', '$category', '$location','$upload','$message','$date','Disapproved')";
+                  $insert_query = "INSERT INTO `crime` (`id`, `user_id`,`fullname`, `crime_subject`, `crime_category`, `crime_loc`, `crime_evidence`,`message`, `date`, `status`, `hashed`)
+      VALUES (NULL, '$userid','$name',  '$subject', '$category', '$location','$upload','$message','$date','Disapproved', '$hashed')";
 
                 if(mysqli_query($conn,$insert_query)){                               
                       
